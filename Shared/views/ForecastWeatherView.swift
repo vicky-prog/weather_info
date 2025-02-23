@@ -29,28 +29,29 @@ struct ForecastCardView: View {
         VStack(spacing: 10) {
             Text(formattedDate(from: day.date))
                 .font(.headline)
-                .foregroundColor(.primary)
+                .foregroundColor(.white)
 
             AsyncImage(url: URL(string: "https:\(day.day.condition.icon)")) { image in
                 image
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 60, height: 60)
+                    .frame(width: 30, height: 30)
             } placeholder: {
                 ProgressView()
             }
 
             Text(day.day.condition.text)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.white)
 
             Text("🌡️ \(day.day.avgtemp_c, specifier: "%.1f")°C")
                 .font(.title2)
+                .foregroundColor(.white)
                 .bold()
 
-            Text("💨 \(day.day.maxwind_kph, specifier: "%.1f") km/h")
-                .font(.footnote)
-                .foregroundColor(.secondary)
+//            Text("💨 \(day.day.maxwind_kph, specifier: "%.1f") km/h")
+//                .font(.footnote)
+//                .foregroundColor(.secondary)
         }
         .padding()
         .background(Color.blue.opacity(0.1))

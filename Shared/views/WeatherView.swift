@@ -13,30 +13,41 @@ struct WeatherView: View {
     @StateObject private var viewModel = WeatherViewModel()
 
     var body: some View {
+        ZStack{
+            
+            Image("background1")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
         VStack(alignment:.leading,spacing: 2) {
             if let weather = viewModel.weather {
                 Text("🌍 \(weather.location.name), \(weather.location.country)")
+                    .foregroundColor(.white)
                     //.font(.title)
                     .padding(.top,20)
                 Text("Today, \(formattedDate())")
                     .font(.system(size: 13))
-                     .foregroundColor(.gray)
+                     .foregroundColor(.white)
                      .padding(.top, 15)
                 HStack(alignment: .top, spacing: 2) {
                     Text("\(weather.current.temp_c, specifier: "%.1f")")
                         .font(.system(size: 70, weight: .bold))
+                        .foregroundColor(.white)
                     Text("°C")
+                        .foregroundColor(.white)
                         .font(.system(size: 24)) // Smaller °C
                         .padding(.top, 6) // Push °C slightly to the top
+                     
                 }
                 .padding(.top, 20)
                 HStack{
-                    AsyncImage(url: URL(string: "https:\(weather.current.condition.icon)")) { image in
-                        image.resizable().frame(width: 100, height: 100)
-                    } placeholder: {
-                        ProgressView()
-                    }
+//                    AsyncImage(url: URL(string: "https:\(weather.current.condition.icon)")) { image in
+//                        image.resizable().frame(width: 100, height: 100)
+//                    } placeholder: {
+//                        ProgressView()
+//                    }
                     Text(weather.current.condition.text)
+                        .foregroundColor(.white)
                         .font(.headline)
                         //.padding()
                   
@@ -71,6 +82,8 @@ struct WeatherView: View {
             }
         }
         .padding(.horizontal)
+        }
+        
     }
 }
 
