@@ -31,26 +31,26 @@ struct ForecastCardView: View {
                 .font(.headline)
                 .foregroundColor(.primary)
 
-//            AsyncImage(url: URL(string: "https:\(day.day.condition.icon)")) { image in
-//                image
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: 60, height: 60)
-//            } placeholder: {
-//                ProgressView()
-//            }
-//
-//            Text(day.day.condition.text)
-//                .font(.subheadline)
-//                .foregroundColor(.secondary)
-//
-//            Text("🌡️ \(day.day.avgtemp_c, specifier: "%.1f")°C")
-//                .font(.title2)
-//                .bold()
-//
-//            Text("💨 \(day.day.maxwind_kph, specifier: "%.1f") km/h")
-//                .font(.footnote)
-//                .foregroundColor(.secondary)
+            AsyncImage(url: URL(string: "https:\(day.day.condition.icon)")) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+            } placeholder: {
+                ProgressView()
+            }
+
+            Text(day.day.condition.text)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Text("🌡️ \(day.day.avgtemp_c, specifier: "%.1f")°C")
+                .font(.title2)
+                .bold()
+
+            Text("💨 \(day.day.maxwind_kph, specifier: "%.1f") km/h")
+                .font(.footnote)
+                .foregroundColor(.secondary)
         }
         .padding()
         .background(Color.blue.opacity(0.1))

@@ -8,8 +8,8 @@
 import Foundation
 
 struct ForecastWeather: Codable {
-   // let location: Location
-    //let current: Current
+    let location: Location
+    let current: Current
     let forecast: Forecast
     //let alerts: Alerts
 }
@@ -30,10 +30,10 @@ struct Forecast: Codable {
 
 struct ForecastDay: Codable {
     let date: String
-    //let date_epoch: Int
-    //let day: Day
+    let date_epoch: Int
+    let day: Day
    // let astro: Astro
-   // let hour: [Hour]
+   let hour: [Hour]
 }
 
 struct Day: Codable {

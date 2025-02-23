@@ -32,12 +32,12 @@ struct WeatherView: View {
                 } placeholder: {
                     ProgressView()
                 }
-//                Button("Test") {
-//                    Task {
-//                        await viewModel.loadForecastWeather(for: "Bangalore", days:14)
-//                        print(viewModel.forecastWeather?.forecast.forecastday ?? "empty")
-//                    }
-//                }
+                Button("Test") {
+                    Task {
+                        await viewModel.loadForecastWeather(for: "Bangalore", days:14)
+                        print(viewModel.forecastWeather?.forecast.forecastday ?? "empty")
+                    }
+                }
 
                 ForecastWeatherView(forecastDays: viewModel.forecastWeather?.forecast.forecastday ?? [])
 
