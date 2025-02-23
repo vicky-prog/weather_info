@@ -15,5 +15,10 @@ struct APIConstants {
       static   func currentWeather(for city:String)->String{
             return "\(baseURL)/current.json?key=\(apiKey)&q=\(city)"
         }
+        
+        static func forecastWeather(for location: String, days: Int) -> String {
+            return "\(baseURL)/forecast.json?key=\(apiKey)&q=\(location)&days=\(days)"
+        }
+
     }
 }

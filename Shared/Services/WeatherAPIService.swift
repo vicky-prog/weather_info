@@ -12,5 +12,12 @@ struct WeatherAPIService {
         let urlString = APIConstants.Endpoints.currentWeather(for: city)
         return try await NetworkManager.shared.fetchData(from: urlString, responseType: Weather.self)
     }
+    
+    func fetchForecastWeather(for location:String, days:Int) async throws -> ForecastWeather{
+        let urlString = APIConstants.Endpoints.forecastWeather(for: location, days: days)
+
+
+        return try await NetworkManager.shared.fetchData(from: urlString, responseType: ForecastWeather.self)
+    }
 
 }

@@ -32,6 +32,17 @@ struct WeatherView: View {
                 } placeholder: {
                     ProgressView()
                 }
+//                Button("Test") {
+//                    Task {
+//                        await viewModel.loadForecastWeather(for: "Bangalore", days:14)
+//                        print(viewModel.forecastWeather?.forecast.forecastday ?? "empty")
+//                    }
+//                }
+
+                ForecastWeatherView(forecastDays: viewModel.forecastWeather?.forecast.forecastday ?? [])
+
+
+
             } else if let errorMessage = viewModel.errorMessage {
                 Text("⚠️ \(errorMessage)")
                     .foregroundColor(.red)
@@ -39,6 +50,7 @@ struct WeatherView: View {
                 ProgressView("Fetching Weather...")
                     .task {
                         await viewModel.loadWeather(for: "Bangalore")
+                        await viewModel.loadForecastWeather(for: "Bangalore", days:14)
                     }
             }
         }
