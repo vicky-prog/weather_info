@@ -26,28 +26,39 @@ struct ForecastCardView: View {
     let day: ForecastDay
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(alignment:.leading, spacing: 10) {
             Text(formattedDate(from: day.date))
-                .font(.headline)
+                .font(.system(size: 12))
                 .foregroundColor(.white)
-
-            AsyncImage(url: URL(string: "https:\(day.day.condition.icon)")) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 30, height: 30)
-            } placeholder: {
-                ProgressView()
+            HStack{
+                AsyncImage(url: URL(string: "https:\(day.day.condition.icon)")) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                } placeholder: {
+                    ProgressView()
+                }
+                
+                Text(day.day.condition.text)
+                    .font(.system(size: 13))
+                    .foregroundColor(.white)
             }
 
-            Text(day.day.condition.text)
-                .font(.subheadline)
-                .foregroundColor(.white)
+          
 
-            Text("🌡️ \(day.day.avgtemp_c, specifier: "%.1f")°C")
-                .font(.title2)
-                .foregroundColor(.white)
-                .bold()
+            HStack(alignment:.top){
+                Text("\(day.day.avgtemp_c, specifier: "%.1f")")
+                    .font(.system(size: 20,weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(.top, 5)
+                   
+                Text("°C")
+                    .foregroundColor(.white)
+                    .font(.system(size: 12))
+                    .padding(.top,6)
+            }
+           
 
 //            Text("💨 \(day.day.maxwind_kph, specifier: "%.1f") km/h")
 //                .font(.footnote)
@@ -57,7 +68,7 @@ struct ForecastCardView: View {
         .background(Color.blue.opacity(0.1))
         .cornerRadius(16)
         .shadow(radius: 4)
-        .frame(width: 140)
+       // .frame(width: )
     }
 
     private func formattedDate(from dateString: String) -> String {
