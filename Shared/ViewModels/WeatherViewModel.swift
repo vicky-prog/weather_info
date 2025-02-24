@@ -16,17 +16,18 @@ final class WeatherViewModel:ObservableObject{
     
     private let weatherService = WeatherAPIService()
     
-    func loadWeather(for city:String)async{
+    func loadWeather(for city:String)async throws{
         do{
             weather = try await weatherService.fetchCurrentWeather(for:city)
         }catch{
             errorMessage = error.localizedDescription
+            throw error
         }
       
     }
     
     @MainActor
-    func loadForecastWeather(for location:String, days:Int)async{
+    func loadForecastWeather(for location:String, days:Int)async throws{
       
         do {
             forecastWeather = try await weatherService.fetchForecastWeather(for: location, days: days)
@@ -44,6 +45,7 @@ final class WeatherViewModel:ObservableObject{
             }
         } catch {
             print("⚠️ Unexpected error: \(error.localizedDescription)")
+            throw error
         }
 
     }
