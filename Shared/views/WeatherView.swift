@@ -10,7 +10,7 @@ import SwiftUI
 struct WeatherView: View {
     @StateObject private var viewModel = WeatherViewModel()
     @State private var isRefreshing = false
-    private let timer = Timer.publish(every: 300, on: .main, in: .common).autoconnect() // Auto-refresh every 5 mins
+    private let timer = Timer.publish(every: 30000, on: .main, in: .common).autoconnect() // Auto-refresh every 5 mins
 
     var body: some View {
         ZStack {

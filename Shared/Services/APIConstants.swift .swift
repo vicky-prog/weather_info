@@ -9,7 +9,7 @@ import Foundation
 
 struct APIConstants {
     static let baseURL = "https://api.weatherapi.com/v1"
-    static let apiKey = "28b9bb265a6d4cd4a9055150252202"
+    static let apiKey = ""
     
     struct Endpoints{
       static   func currentWeather(for city:String)->String{
