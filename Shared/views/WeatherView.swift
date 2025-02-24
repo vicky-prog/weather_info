@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WeatherView: View {
     @StateObject private var viewModel = WeatherViewModel()
- 
+    @State private var isRefreshing = false
     private let timer = Timer.publish(every: 300, on: .main, in: .common).autoconnect() // Auto-refresh every 5 mins
 
     var body: some View {
@@ -26,8 +26,27 @@ struct WeatherView: View {
                     headerView(weather: weather)
                     weatherDetails(weather: weather)
                     Spacer()
-                    ForecastWeatherView(forecastDays: viewModel.forecastWeather?.forecast.forecastday ?? [])
-                        .padding(.trailing, -16)
+                    if isRefreshing {
+                        // Shimmer placeholder during refresh (horizontal)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 16) {
+                                ForEach(0..<3, id: \.self) { _ in
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.gray.opacity(0.3))
+                                        .frame(width: 100, height: 100) // Adjusted for card-like appearance
+                                        .shimmering() // ✨ Shimmer effect
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+                        .padding(.bottom, 20)
+                    } else {
+                        // Actual Forecast View
+                        ForecastWeatherView(forecastDays: viewModel.forecastWeather?.forecast.forecastday ?? [])
+                            .padding(.trailing, -16)
+                    }
+
+
 
                 } else if let errorMessage = viewModel.errorMessage {
                     errorView(message: errorMessage)
@@ -35,7 +54,7 @@ struct WeatherView: View {
                     ProgressView("Fetching Weather...")
                         .task {
                             
-                            await refreshWeather()
+                            triggerBackgroundRefresh()
                         }
                 }
             }
@@ -44,7 +63,7 @@ struct WeatherView: View {
                
                 Task {
                   
-                    await refreshWeather()
+                    triggerBackgroundRefresh()
                    
                 }
             }
@@ -56,15 +75,15 @@ struct WeatherView: View {
         HStack {
             Text("🌍 \(weather.location.name), \(weather.location.country)")
                 .foregroundColor(.white)
-                .padding(.top, UIScreen.main.bounds.height * 0.02)
+                .padding(.top, UIScreen.main.bounds.height * 0.04)
 
             Spacer()
 
 //            Button(action: {
-//               
+//
 //                Task {
 //                    await refreshWeather()
-//                  
+//
 //                }
 //            }) {
 //                Image(systemName: "arrow.clockwise")
@@ -110,13 +129,23 @@ struct WeatherView: View {
                 .padding()
 
             Button("Retry") {
-                Task { await refreshWeather() }
+                Task { triggerBackgroundRefresh() }
             }
             .padding()
             .background(Color.white.opacity(0.2))
             .cornerRadius(10)
         }
     }
+    
+    // MARK: - Refresh Weather (Background)
+    func triggerBackgroundRefresh() {
+        isRefreshing = true
+        Task(priority: .background) {
+            await refreshWeather()
+            isRefreshing = false
+        }
+    }
+
 
     // MARK: - Refresh Weather (Concurrent)
     @MainActor
